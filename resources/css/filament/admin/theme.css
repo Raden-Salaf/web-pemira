@@ -1,0 +1,357 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+@theme {
+    --color-navy: #0B1E4D;
+    --color-blue: #1E40AF;
+    --color-ink: #4C1D95;
+    --color-paper: #F8FAFC;
+    --color-slate: #64748B;
+    --color-success: #059669;
+
+    --font-display: "Space Grotesk", sans-serif;
+    --font-body: "Plus Jakarta Sans", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+}
+
+/*
+  ===================================================================
+  REDESIGN HALAMAN LOGIN -- MODERN, BIRU-PUTIH, HIDUP
+  Konsep: background putih bersih dengan "gradient mesh" -- beberapa
+  blob warna biru/indigo/cyan yang blur & melayang pelan di belakang,
+  kartu form melayang di atasnya dengan efek kaca (glassmorphism).
+  ===================================================================
+*/
+
+.fi-simple-layout {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 2rem 1rem;
+    background: #F8FAFC;
+}
+
+/*
+  GRADIENT MESH -- 3 blob warna (biru, indigo, cyan) diblur berat pakai
+  filter, diposisikan di sudut-sudut berbeda, lalu di-animasi geser
+  PELAN tanpa henti. Ini yang bikin background "hidup" walau simpel --
+  tren umum di landing page SaaS modern, tapi kita jaga tetap di
+  keluarga warna biru sesuai permintaan (bukan warna sembarangan).
+*/
+.fi-simple-layout::before,
+.fi-simple-layout::after {
+    content: '';
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.fi-simple-layout::before {
+    width: 500px;
+    height: 500px;
+    top: -150px;
+    left: -100px;
+    background: linear-gradient(135deg, #3B82F6, #6366F1);
+    animation: blob-float-1 18s ease-in-out infinite;
+}
+
+.fi-simple-layout::after {
+    width: 450px;
+    height: 450px;
+    bottom: -150px;
+    right: -100px;
+    background: linear-gradient(135deg, #06B6D4, #3B82F6);
+    animation: blob-float-2 22s ease-in-out infinite;
+}
+
+@keyframes blob-float-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(60px, 40px) scale(1.1); }
+}
+
+@keyframes blob-float-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-50px, -30px) scale(1.05); }
+}
+
+.fi-simple-header-heading,
+.fi-logo {
+    display: none;
+}
+
+.fi-simple-header {
+    position: relative;
+    z-index: 1;
+}
+
+/* Kartu form: putih dengan sedikit transparansi + blur di belakangnya
+   (efek "kaca"), border tipis biru, shadow lembut biru (bukan hitam
+   pekat biasa -- shadow berwarna itu detail kecil yang bikin kesan
+   lebih modern & "menyatu" dengan tema) */
+.fi-simple-main {
+    position: relative;
+    z-index: 1;
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    box-shadow: 0 25px 50px -12px rgba(30, 64, 175, 0.25);
+    animation: fi-login-enter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fi-login-enter {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fi-simple-main,
+    .fi-simple-layout::before,
+    .fi-simple-layout::after {
+        animation: none;
+    }
+}
+
+/* Field form muncul berurutan (staggered), kesan diungkap satu-satu */
+.fi-simple-main .fi-fo-field:nth-child(1) { animation: field-in 0.5s ease-out 0.15s both; }
+.fi-simple-main .fi-fo-field:nth-child(2) { animation: field-in 0.5s ease-out 0.25s both; }
+.fi-simple-main .fi-sc-actions { animation: field-in 0.5s ease-out 0.35s both; }
+
+@keyframes field-in {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fi-simple-main .fi-fo-field,
+    .fi-simple-main .fi-sc-actions {
+        animation: none;
+    }
+}
+
+.fi-input-wrp {
+    border-radius: 0.75rem !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.fi-input-wrp:focus-within {
+    border-color: var(--color-blue) !important;
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15) !important;
+    transform: scale(1.01);
+}
+
+.fi-checkbox-input:checked {
+    background-color: var(--color-blue) !important;
+    border-color: var(--color-blue) !important;
+}
+
+.fi-input-wrp-suffix svg {
+    transition: transform 0.2s ease;
+}
+.fi-input-wrp-suffix:hover svg {
+    transform: scale(1.15);
+}
+
+/* Tombol: gradient biru-indigo (bukan warna solid datar), dengan
+   efek "kilau" menyapu saat di-hover, plus glow shadow berwarna */
+.fi-simple-main .fi-btn {
+    background: linear-gradient(135deg, var(--color-blue), #4338CA) !important;
+    border-radius: 0.75rem !important;
+    font-family: var(--font-display) !important;
+    font-weight: 600 !important;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* WAJIB: paksa teks tombol putih -- tanpa ini teks bisa invisible
+   karena Filament kalkulasi warna teks otomatis dari primary color,
+   yang ternyata gak selalu kontras sama background custom kita */
+.fi-simple-main .fi-btn,
+.fi-simple-main .fi-btn * {
+    color: white !important;
+}
+
+.fi-simple-main .fi-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -6px rgba(30, 64, 175, 0.5);
+}
+
+.fi-simple-main .fi-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transition: left 0.5s ease;
+}
+
+.fi-simple-main .fi-btn:hover::after {
+    left: 150%;
+}
+
+/*
+  ===================================================================
+  REDESIGN PANEL ADMIN -- SIDEBAR, TOPBAR, TABEL, DASHBOARD
+  Bahasa desain sama dengan login: biru-putih, gradient mesh, glass,
+  animasi halus di setiap interaksi.
+  ===================================================================
+*/
+
+.fi-sidebar {
+    background: linear-gradient(180deg, var(--color-navy) 0%, #142a5e 100%) !important;
+    border: none !important;
+}
+
+.fi-sidebar-header {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.fi-sidebar .fi-logo,
+.fi-sidebar-header * {
+    color: white !important;
+}
+
+.fi-sidebar-item .fi-sidebar-item-button {
+    color: rgba(255, 255, 255, 0.65) !important;
+    border-radius: 0.65rem !important;
+    transition: all 0.2s ease;
+}
+
+.fi-sidebar-item .fi-sidebar-item-button:hover {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    transform: translateX(3px);
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-button {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.25), rgba(99, 102, 241, 0.1)) !important;
+    color: white !important;
+    border-left: 3px solid #3B82F6;
+    font-weight: 600;
+}
+
+.fi-sidebar-item .fi-icon {
+    color: inherit !important;
+}
+
+/* Topbar sekarang navy gelap, senada sama sidebar -- bukan putih lagi */
+.fi-topbar {
+    background: var(--color-navy) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+}
+
+.fi-topbar nav,
+.fi-topbar * {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.fi-avatar {
+    box-shadow: 0 0 0 2px #3B82F6 !important;
+}
+
+.fi-btn.fi-color-primary {
+    background: linear-gradient(135deg, var(--color-blue), #4338CA) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fi-btn.fi-color-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px -4px rgba(30, 64, 175, 0.4);
+}
+
+.fi-wi-stats-overview-stat {
+    border-radius: 1rem !important;
+    border: 1px solid rgba(59, 130, 246, 0.12) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fi-wi-stats-overview-stat:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -8px rgba(30, 64, 175, 0.2) !important;
+}
+
+.fi-ta-row:hover {
+    background: rgba(59, 130, 246, 0.04) !important;
+}
+
+.fi-badge {
+    transition: transform 0.15s ease;
+}
+.fi-badge:hover {
+    transform: scale(1.05);
+}
+
+.fi-section,
+.fi-ta-ctn {
+    border-radius: 1rem !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fi-sidebar-item .fi-sidebar-item-button,
+    .fi-wi-stats-overview-stat,
+    .fi-badge,
+    .fi-btn.fi-color-primary {
+        transition: none;
+    }
+}
+
+/* FIX teks sidebar lebih jelas -- opacity dinaikkan dari 0.65 ke 0.85 */
+.fi-sidebar-item .fi-sidebar-item-button {
+    color: rgb(255, 255, 255) !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    font-size: 0.8125rem !important;
+}
+
+/* KARTU DASHBOARD -- warna beda per kartu, urutan sesuai urutan Stat
+   di StatsOverview.php (nth-child = urutan ke berapa, PASTI konsisten
+   gak peduli nama class internal Filament-nya apa) */
+.fi-wi-stats-overview-stat:nth-child(1) {
+    background: linear-gradient(135deg, rgba(5,150,105,0.08), white) !important;
+    border-color: rgba(5,150,105,0.25) !important;
+}
+.fi-wi-stats-overview-stat:nth-child(2) {
+    background: linear-gradient(135deg, rgba(6,182,212,0.08), white) !important;
+    border-color: rgba(6,182,212,0.25) !important;
+}
+.fi-wi-stats-overview-stat:nth-child(3) {
+    background: linear-gradient(135deg, rgba(30,64,175,0.08), white) !important;
+    border-color: rgba(30,64,175,0.25) !important;
+}
+.fi-wi-stats-overview-stat:nth-child(4) {
+    background: linear-gradient(135deg, rgba(217,119,6,0.1), white) !important;
+    border-color: rgba(217,119,6,0.25) !important;
+}
+
+/* Empty state: ikon dikasih background lingkaran biru muda supaya
+   gak keliatan "kosong dan sedih", lebih terasa "menunggu diisi" */
+.fi-ta-empty-state-icon-ctn {
+    background: rgba(59, 130, 246, 0.08) !important;
+    border-radius: 9999px !important;
+}
+
+.fi-ta-empty-state-icon-ctn svg {
+    color: var(--color-blue) !important;
+}
+
+/* FIX MENYELURUH: paksa teks & ikon putih di SEMUA tombol yang pakai
+   warna primary (biru gradient) kita, di manapun tombol itu berada --
+   header actions, table row actions, form submit, dst. Ini lebih aman
+   daripada nargetin container tertentu doang (yang ternyata strukturnya
+   beda-beda tiap tempat), karena class '.fi-color-primary' konsisten
+   dipakai Filament di SEMUA tombol yang warnanya primary, di manapun. */
+.fi-btn.fi-color-primary,
+.fi-btn.fi-color-primary * {
+    color: white !important;
+}

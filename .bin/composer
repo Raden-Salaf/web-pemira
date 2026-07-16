@@ -1,0 +1,4 @@
+#!/bin/bash
+# Wrapper ini memastikan composer SELALU dijalankan pakai PHP 8.4,
+# supaya proses dependency resolution konsisten dengan PHP yang project ini pakai
+exec php84 /usr/bin/composer "$@"

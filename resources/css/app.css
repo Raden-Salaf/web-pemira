@@ -1,0 +1,37 @@
+/* resources/css/app.css */
+@import "tailwindcss";
+
+/*
+  @theme adalah fitur Tailwind v4 buat daftarin "design token" custom
+  (warna, font) yang bisa langsung dipakai sebagai utility class,
+  contoh: text-navy, font-display, dst -- tanpa perlu tailwind.config.js
+  terpisah kayak versi v3 dulu.
+*/
+@theme {
+    /* Palet warna utama -- terinspirasi kertas suara & tinta pemilu */
+    --color-navy: #0B1E4D;      /* biru tua, buat header & teks penting */
+    --color-blue: #1E40AF;      /* biru aksi, tombol utama */
+    --color-ink: #4C1D95;       /* ungu tinta coblos -- SIGNATURE, pakai terbatas */
+    --color-paper: #F8FAFC;     /* putih kertas, background */
+    --color-slate: #64748B;     /* abu netral, teks sekunder */
+    --color-success: #059669;   /* hijau status aktif/berhasil */
+
+    /* Font family custom */
+    --font-display: "Space Grotesk", sans-serif;
+    --font-body: "Plus Jakarta Sans", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+}
+
+/*
+  Animasi custom buat efek "noda tinta muncul" -- dipakai di halaman
+  konfirmasi sudah memilih nanti. Sengaja dibuat ringan/singkat,
+  bukan animasi berlebihan yang malah keliatan berisik.
+*/
+@keyframes ink-stamp {
+    0% { transform: scale(0.3); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.animate-ink-stamp {
+    animation: ink-stamp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
