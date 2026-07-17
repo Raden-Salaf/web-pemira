@@ -8,7 +8,7 @@
         {{-- HERO: tegas & langsung, bukan basa-basi --}}
         <div class="mb-12">
             <p class="font-mono text-xs text-ink tracking-widest uppercase mb-3">
-                — Suaramu, Suara Kampus
+                — Suaramu yang menentukan masa depan
             </p>
             <h1 class="font-display font-semibold text-3xl md:text-4xl text-navy leading-tight">
                 Pilih pemilihan yang<br>ingin kamu ikuti.
