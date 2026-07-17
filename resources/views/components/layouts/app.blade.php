@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <title>{{ $title ?? 'Pemira Online' }}</title>
 
     {{-- Import 3 font sesuai konsep desain: Space Grotesk (display/judul),

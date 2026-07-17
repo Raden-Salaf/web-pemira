@@ -39,7 +39,8 @@ class AdminPanelProvider extends PanelProvider
             // ->font() otomatis nge-load font dari Google Fonts dan pasang ke SELURUH
             // panel admin, tanpa perlu setup manual kayak yang kita lakukan di app.blade.php
             ->font('Plus Jakarta Sans')
-
+            // logo title
+            ->favicon(asset('favicon.png'))
             // Ganti nama brand yang muncul di sidebar & tab browser
             ->brandName('Pemira Online')
 
